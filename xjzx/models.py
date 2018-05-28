@@ -34,7 +34,7 @@ class NewsInfo(db.Model, BaseModel):
     comment_count = db.Column(db.Integer, default=1)
     status = db.Column(db.SmallInteger, default=1)
     reason = db.Column(db.String(100), default='')
-    comments = db.relationship('NewsComment', backref='news', lazy='dynamic', order_by='NewsComment.id.desc()')
+    comments = db.relationship('NewComment', backref='news', lazy='dynamic', order_by='NewComment.id.desc()')
 
 tb_news_collect =db.Table(
     'tb_news_collect',
@@ -59,8 +59,8 @@ class UserInfo(db.Model, BaseModel):
     password_hash = db.Column(db.String(200))
     gender = db.Column(db.Boolean, default=False)
     isAdmin = db.Column(db.Boolean, default=False)
-    news = db.relationship('NewInfo', backref='user', lazy='dynamic')
-    comments = db.relationship('NewsComment', backref='user', lazy='dynamic')
+    news = db.relationship('NewsInfo', backref='user', lazy='dynamic')
+    comments = db.relationship('NewComment', backref='user', lazy='dynamic')
 
     news_collect = db.relationship('NewsInfo', secondary=tb_news_collect, lazy='dynamic')
     follow_user = db.relationship('UserInfo', secondary=tb_user_follow, lazy='dynamic',
