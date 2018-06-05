@@ -126,7 +126,7 @@ $(function(){
                 //将右上角的用户信息展示出来，并隐藏登录注册div
                 $('.user_btns').hide();
                 $('.user_login').show();
-                $('.lgin_pic').attr('src','/static/news/images/'+data.avatar);
+                $('.lgin_pic').attr('src',data.avatar);
                 $('#nick_name').text(data.nick_name);
             }
         });
@@ -208,8 +208,13 @@ $(function(){
             'csrf_token':$('#csrf_token').val()
         },function (data) {
             if(data.result==1){
-                $('.user_btns').show();
-                $('.user_login').hide();
+                if (location.pathname=='/user/'){
+                    location.href ='/';
+                }else {
+
+                    $('.user_btns').show();
+                    $('.user_login').hide();
+                }
             }
         });
     });
@@ -267,7 +272,7 @@ function fnChangeMenu(n) {
     if (n >= 0) {
         $li.eq(n).addClass('active').siblings().removeClass('active');
         // 执行 a 标签的点击事件
-        $li.eq(n).find('a')[0].click()
+        // $li.eq(n).find('a')[0].click()
     }
 }
 

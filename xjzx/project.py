@@ -15,6 +15,12 @@ from flask_migrate import Migrate,MigrateCommand
 Migrate(app,db)
 manager.add_command('db',MigrateCommand)
 
+from super_command import CreateAdminCommand,RegisterUserCommand,LoginCountCommand
+manager.add_command('admin',CreateAdminCommand())
+
+manager.add_command('register',RegisterUserCommand())
+manager.add_command('login',LoginCountCommand())
+
 
 if __name__ == '__main__':
     manager.run()

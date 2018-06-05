@@ -2,7 +2,7 @@ import pymysql
 from werkzeug.security import generate_password_hash,check_password_hash
 pymysql.install_as_MySQLdb()
 from datetime import datetime
-
+from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -35,6 +35,11 @@ class NewsInfo(db.Model, BaseModel):
     status = db.Column(db.SmallInteger, default=1)
     reason = db.Column(db.String(100), default='')
     comments = db.relationship('NewComment', backref='news', lazy='dynamic', order_by='NewComment.id.desc()')
+
+    @property
+    def pic_url(self):
+        return current_app.config.get('QINIU_URL')+self.pic
+
 
 tb_news_collect =db.Table(
     'tb_news_collect',
@@ -80,6 +85,10 @@ class UserInfo(db.Model, BaseModel):
     def ckeck_pwd(self,pwd):
         return  check_password_hash(self.password_hash,pwd)
 
+    @property
+    def avatar_url(self):
+        return current_app.config.get('QINIU_URL')+self.avatar
+        # return '/static/news/images/'+self.avatar
 
 class NewComment(db.Model,BaseModel):
     __tablename__='news_comment'
